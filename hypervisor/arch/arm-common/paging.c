@@ -89,7 +89,7 @@ static unsigned long arm_get_l1_alt_phys(pt_entry_t pte, unsigned long virt)
 
 static pt_entry_t arm_get_l2_entry(page_table_t page_table, unsigned long virt)
 {
-	return &page_table[(virt & L2_VADDR_MASK) >> 21];
+	return &page_table[GET_FIELD((virt & L2_VADDR_MASK), 21, 21)];
 }
 
 static pt_entry_t arm_get_l3_entry(page_table_t page_table, unsigned long virt)
