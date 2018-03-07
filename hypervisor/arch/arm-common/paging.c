@@ -84,7 +84,7 @@ static unsigned long arm_get_l1_alt_phys(pt_entry_t pte, unsigned long virt)
 {
 	if ((*pte & PTE_TABLE_FLAGS) == PTE_TABLE_FLAGS)
 		return INVALID_PHYS_ADDR;
-	return (*pte & BIT_MASK(48,30)) | (virt & BIT_MASK(29,0));
+	return (*pte & BIT_MASK(48,30)) | GET_FIELD((virt), 29, 0);
 }
 
 static pt_entry_t arm_get_l2_entry(page_table_t page_table, unsigned long virt)
