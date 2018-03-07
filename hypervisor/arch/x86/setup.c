@@ -89,8 +89,8 @@ static void read_descriptor(struct per_cpu *cpu_data, struct segment *seg)
 			    (seg->selector & 0xfff8));
 
 	if (desc[0] & DESC_PRESENT) {
-		seg->base = GET_FIELD((desc[0]), 16, 0xffffff) |
-			GET_FIELD((desc[0]), 32, 0xff000000);
+		seg->base = GET_FIELD((desc[0]), 0xffffff, 16) |
+			GET_FIELD((desc[0]), 64, 32);
 		if (!(desc[0] & DESC_CODE_DATA))
 			seg->base |= desc[1] << 32;
 
