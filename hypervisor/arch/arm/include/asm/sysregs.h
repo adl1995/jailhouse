@@ -107,13 +107,11 @@
 #define ESR_EL2		SYSREG_32(4, c5, c2, 0)
 #define HSR		ESR_EL2 /* AArch32 name */
 /* exception class */
-#define  HSR_EC_SHIFT		26
-#define  HSR_EC(hsr)		((hsr) >> HSR_EC_SHIFT & 0x3f)
+#define  HSR_EC(esr)		GET_FIELD((esr), 31, 26)
 /* instruction length */
-#define  HSR_IL_SHIFT		25
-#define  HSR_IL(hsr)		((hsr) >> HSR_IL_SHIFT & 0x1)
+#define  HSR_IL(esr)		GET_FIELD((esr), 25, 25)
 /* Instruction specific */
-#define  HSR_ISS(hsr)		((hsr) & BIT_MASK(24, 0))
+#define  HSR_ISS(esr)		GET_FIELD((esr), 24, 0)
 /* Exception classes values */
 #define  HSR_EC_UNK		0x00
 #define  HSR_EC_WFI		0x01

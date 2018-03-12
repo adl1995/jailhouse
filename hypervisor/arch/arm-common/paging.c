@@ -1,7 +1,7 @@
 /*
  * Jailhouse, a Linux-based partitioning hypervisor
  *
- * Copyright (c) ARM Limited, 2014
+ * Copyright (c) ARM Limited, 2014-2018
  *
  * Authors:
  *  Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
@@ -45,7 +45,7 @@ static bool arm_page_table_empty(page_table_t page_table)
 #if MAX_PAGE_TABLE_LEVELS > 3
 static pt_entry_t arm_get_l0_entry(page_table_t page_table, unsigned long virt)
 {
-	return &page_table[(virt & L0_VADDR_MASK) >> 39];
+	return &page_table[GET_FIELD(virt, 47, 39)];
 }
 
 static unsigned long arm_get_l0_phys(pt_entry_t pte, unsigned long virt)
@@ -59,7 +59,7 @@ static unsigned long arm_get_l0_phys(pt_entry_t pte, unsigned long virt)
 #if MAX_PAGE_TABLE_LEVELS > 2
 static pt_entry_t arm_get_l1_entry(page_table_t page_table, unsigned long virt)
 {
-	return &page_table[(virt & L1_VADDR_MASK) >> 30];
+	return &page_table[GET_FIELD(virt, 38, 30)];
 }
 
 static void arm_set_l1_block(pt_entry_t pte, unsigned long phys, unsigned long flags)
@@ -77,7 +77,7 @@ static unsigned long arm_get_l1_phys(pt_entry_t pte, unsigned long virt)
 
 static pt_entry_t arm_get_l1_alt_entry(page_table_t page_table, unsigned long virt)
 {
-	return &page_table[(virt & BIT_MASK(48,30)) >> 30];
+	return &page_table[GET_FIELD(virt, 48, 30)];
 }
 
 static unsigned long arm_get_l1_alt_phys(pt_entry_t pte, unsigned long virt)
@@ -89,12 +89,12 @@ static unsigned long arm_get_l1_alt_phys(pt_entry_t pte, unsigned long virt)
 
 static pt_entry_t arm_get_l2_entry(page_table_t page_table, unsigned long virt)
 {
-	return &page_table[(virt & L2_VADDR_MASK) >> 21];
+	return &page_table[GET_FIELD(virt, 29, 21)];
 }
 
 static pt_entry_t arm_get_l3_entry(page_table_t page_table, unsigned long virt)
 {
-	return &page_table[(virt & L3_VADDR_MASK) >> 12];
+	return &page_table[GET_FIELD(virt, 20, 12)];
 }
 
 static void arm_set_l2_block(pt_entry_t pte, unsigned long phys, unsigned long flags)
