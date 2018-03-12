@@ -45,7 +45,7 @@ static bool arm_page_table_empty(page_table_t page_table)
 #if MAX_PAGE_TABLE_LEVELS > 3
 static pt_entry_t arm_get_l0_entry(page_table_t page_table, unsigned long virt)
 {
-	return &page_table[GET_FIELD((virt & L0_VADDR_MASK), 39, 39)];
+	return &page_table[L0_INDEX(virt)];
 }
 
 static unsigned long arm_get_l0_phys(pt_entry_t pte, unsigned long virt)
@@ -59,7 +59,7 @@ static unsigned long arm_get_l0_phys(pt_entry_t pte, unsigned long virt)
 #if MAX_PAGE_TABLE_LEVELS > 2
 static pt_entry_t arm_get_l1_entry(page_table_t page_table, unsigned long virt)
 {
-	return &page_table[GET_FIELD((virt & L1_VADDR_MASK), 30, 30)];
+	return &page_table[L1_INDEX(virt)];
 }
 
 static void arm_set_l1_block(pt_entry_t pte, unsigned long phys, unsigned long flags)
@@ -77,24 +77,24 @@ static unsigned long arm_get_l1_phys(pt_entry_t pte, unsigned long virt)
 
 static pt_entry_t arm_get_l1_alt_entry(page_table_t page_table, unsigned long virt)
 {
-	return &page_table[GET_FIELD((virt), 48, 30) >> 30];
+	return &page_table[L1_ALT_INDEX(virt)];
 }
 
 static unsigned long arm_get_l1_alt_phys(pt_entry_t pte, unsigned long virt)
 {
 	if ((*pte & PTE_TABLE_FLAGS) == PTE_TABLE_FLAGS)
 		return INVALID_PHYS_ADDR;
-	return GET_FIELD((*pte), 48, 30) | GET_FIELD((virt), 29, 0);
+	return (*pte & BIT_MASK(48,30)) | (virt & BIT_MASK(29,0));
 }
 
 static pt_entry_t arm_get_l2_entry(page_table_t page_table, unsigned long virt)
 {
-	return &page_table[GET_FIELD((virt & L2_VADDR_MASK), 21, 21)];
+	return &page_table[L2_INDEX(virt)];
 }
 
 static pt_entry_t arm_get_l3_entry(page_table_t page_table, unsigned long virt)
 {
-	return &page_table[GET_FIELD((virt & L3_VADDR_MASK), 12, 12)];
+	return &page_table[L3_INDEX(virt)];
 }
 
 static void arm_set_l2_block(pt_entry_t pte, unsigned long phys, unsigned long flags)
