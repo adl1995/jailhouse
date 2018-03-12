@@ -1,7 +1,7 @@
 /*
  * Jailhouse, a Linux-based partitioning hypervisor
  *
- * Copyright (c) ARM Limited, 2014
+ * Copyright (c) ARM Limited, 2014-2018
  *
  * Authors:
  *  Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
@@ -11,6 +11,12 @@
  */
 
 #include <jailhouse/paging.h>
+
+#define L0_INDEX(virt)		GET_FIELD(virt, 47, 39)
+#define L1_INDEX(virt)		GET_FIELD(virt, 38, 30)
+#define L1_ALT_INDEX(virt)	GET_FIELD(virt, 48, 30)
+#define L2_INDEX(virt)		GET_FIELD(virt, 29, 21)
+#define L3_INDEX(virt)		GET_FIELD(virt, 20, 12)
 
 unsigned int cpu_parange = 0;
 
