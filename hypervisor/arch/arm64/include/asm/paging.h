@@ -43,12 +43,6 @@
 
 #define L3_VADDR_MASK		BIT_MASK(20, 12)
 
-// #define L0_INDEX(virt)		GET_FIELD(virt, 47, 39)
-// #define L1_INDEX(virt)		GET_FIELD(virt, 38, 30)
-// #define L1_ALT_INDEX(virt)	GET_FIELD(virt, 48, 30)
-// #define L2_INDEX(virt)		GET_FIELD(virt, 29, 21)
-// #define L3_INDEX(virt)		GET_FIELD(virt, 20, 12)
-
 /*
  * Stage-1 and Stage-2 lower attributes.
  * The contiguous bit is a hint that allows the PE to store blocks of 16 pages

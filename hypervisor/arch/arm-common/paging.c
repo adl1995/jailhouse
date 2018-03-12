@@ -12,12 +12,6 @@
 
 #include <jailhouse/paging.h>
 
-#define L0_INDEX(virt)		GET_FIELD(virt, 47, 39)
-#define L1_INDEX(virt)		GET_FIELD(virt, 38, 30)
-#define L1_ALT_INDEX(virt)	GET_FIELD(virt, 48, 30)
-#define L2_INDEX(virt)		GET_FIELD(virt, 29, 21)
-#define L3_INDEX(virt)		GET_FIELD(virt, 20, 12)
-
 unsigned int cpu_parange = 0;
 
 static bool arm_entry_valid(pt_entry_t entry, unsigned long flags)
@@ -51,7 +45,7 @@ static bool arm_page_table_empty(page_table_t page_table)
 #if MAX_PAGE_TABLE_LEVELS > 3
 static pt_entry_t arm_get_l0_entry(page_table_t page_table, unsigned long virt)
 {
-	return &page_table[L0_INDEX(virt)];
+	return &page_table[GET_FIELD(virt, 47, 39)];
 }
 
 static unsigned long arm_get_l0_phys(pt_entry_t pte, unsigned long virt)
@@ -65,7 +59,7 @@ static unsigned long arm_get_l0_phys(pt_entry_t pte, unsigned long virt)
 #if MAX_PAGE_TABLE_LEVELS > 2
 static pt_entry_t arm_get_l1_entry(page_table_t page_table, unsigned long virt)
 {
-	return &page_table[L1_INDEX(virt)];
+	return &page_table[GET_FIELD(virt, 38, 30)];
 }
 
 static void arm_set_l1_block(pt_entry_t pte, unsigned long phys, unsigned long flags)
@@ -83,7 +77,7 @@ static unsigned long arm_get_l1_phys(pt_entry_t pte, unsigned long virt)
 
 static pt_entry_t arm_get_l1_alt_entry(page_table_t page_table, unsigned long virt)
 {
-	return &page_table[L1_ALT_INDEX(virt)];
+	return &page_table[GET_FIELD(virt, 48, 30)];
 }
 
 static unsigned long arm_get_l1_alt_phys(pt_entry_t pte, unsigned long virt)
@@ -95,12 +89,12 @@ static unsigned long arm_get_l1_alt_phys(pt_entry_t pte, unsigned long virt)
 
 static pt_entry_t arm_get_l2_entry(page_table_t page_table, unsigned long virt)
 {
-	return &page_table[L2_INDEX(virt)];
+	return &page_table[GET_FIELD(virt, 29, 21)];
 }
 
 static pt_entry_t arm_get_l3_entry(page_table_t page_table, unsigned long virt)
 {
-	return &page_table[L3_INDEX(virt)];
+	return &page_table[GET_FIELD(virt, 20, 12)];
 }
 
 static void arm_set_l2_block(pt_entry_t pte, unsigned long phys, unsigned long flags)
